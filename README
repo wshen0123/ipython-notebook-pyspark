@@ -1,0 +1,12 @@
+IPython Notebook for PySpark Setup
+
+Scripts to bring up IPython notebook server daemon
+- spark_notebook.py --> <your_choice>/spark_notebook.py
+
+upstart autostart scripts and conf, change the specifix PATH to match your
+environment and point the script path to <your_choice>/spark_notebook.py
+- notebook --> /etc/init.d/notebook
+- notebook.conf --> /etc/init/notebook.conf
+
+IPython notebook profile.
+profile_pyspark --> ~/.ipython/profile_pyspark
