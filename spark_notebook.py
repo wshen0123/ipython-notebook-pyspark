@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# https://github.com/felixcheung/vagrant-projects
-
 from os import chdir, getenv, system, umask
 from os.path import exists, expanduser
 from subprocess import check_output, check_call
@@ -41,11 +39,13 @@ setenv('PYSPARK_DRIVER_PYTHON_OPTS', 'notebook --profile=%s' % profile_name)
 # IPython Notebook
 #
 
+# IPython Notebook RC.
+# XXX Change notebook_dir to yours
 ipython_notebook_config_template = '''c = get_config()
 c.NotebookApp.ip = '{ip}'
 c.NotebookApp.port = {port}
 c.NotebookApp.open_browser = False
-c.NotebookApp.notebook_dir = u'/vagrant'
+c.NotebookApp.notebook_dir = u'/home/wshen0123/Public/notebook'
 '''
 
 pyspark_setup_template = '''from os import getenv
