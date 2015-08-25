@@ -11,6 +11,20 @@ def setenv(var, value, overwrite=True):
     if overwrite or not var in environ:
         environ[var] = value
 
+#-----------------------
+# IPython Notebook
+#
+
+# Your IPython Notebook HTTP server listening ip and port
+# Warning: this is potentially insecure
+ip = '*'
+port = 8001
+
+# XXX IPython Notebook home directory, e.g. /home/USER/Public/notebook, where
+# all created .ipynb files would be stored.
+# notebook_dir = /home/ipython/Public/
+notebook_dir = <your-notebook-server-home>
+
 
 #-----------------------
 # PySpark
@@ -40,12 +54,11 @@ setenv('PYSPARK_DRIVER_PYTHON_OPTS', 'notebook --profile=%s' % profile_name)
 #
 
 # IPython Notebook RC.
-# XXX Change notebook_dir to yours
 ipython_notebook_config_template = '''c = get_config()
 c.NotebookApp.ip = '{ip}'
 c.NotebookApp.port = {port}
 c.NotebookApp.open_browser = False
-c.NotebookApp.notebook_dir = u'/home/wshen0123/Public/notebook'
+c.NotebookApp.notebook_dir = '{notebook_dir}'
 '''
 
 pyspark_setup_template = '''from os import getenv
@@ -105,9 +118,6 @@ c.IPKernelApp.matplotlib = 'inline'
 c.InlineBackend.rc = {}
 '''
 
-ip = '*'  # Warning: this is potentially insecure
-port = 8001
-
 #-----------------------
 # Create profile and start
 #
@@ -146,7 +156,8 @@ try:
     if not exists(ipython_notebook_config_path) or 'open_browser = False' not in open(ipython_notebook_config_path).read():
         print 'Writing IPython Notebook config\n'
         with open(ipython_notebook_config_path, 'w') as config_file:
-            config_file.write(ipython_notebook_config_template.format(ip=ip, port=port))
+            config_file.write(ipython_notebook_config_template.format(ip=ip,
+                port=port, notebook_dir=notebook_dir))
 
     print 'Launching PySpark with IPython Notebook\n'
     cmd = 'pyspark %s' % pyspark_submit_args
